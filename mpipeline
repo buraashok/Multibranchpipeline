@@ -1,0 +1,45 @@
+pipeline {
+
+        agent 'any'
+
+        stages {
+                stage ('Cloning') {
+                steps {
+                        echo 'checkout'
+                        git url: 'git://github.com/buraashok/MavenProject.git'
+                                }
+                        }
+                stage ('building data') {
+                        steps {
+                                echo 'clean build'
+                                sh 'mvn compile'
+                                }
+                        }
+                stage ('testing') {
+                        steps {
+                                echo 'testing'
+                                sh 'mvn test'
+                                }
+                        }
+                       
+                        
+            
+                    stage ('Jococo')
+                    {
+                      steps
+                       {
+                         jacoco()
+                        }
+                    }
+                    
+                     stage ('packaging')
+                        {
+                            steps
+                            {
+                                sh 'mvn package'
+                            }
+                        }
+                    
+                     
+                      }
+         }
